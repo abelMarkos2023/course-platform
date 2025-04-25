@@ -1,11 +1,57 @@
 {
-  "id": "2eeedd6d-72f7-4e43-8a0d-19a2c6bb63e1",
+  "id": "68020248-6f7b-46b3-95d8-a20bbde28fae",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.courses": {
       "name": "courses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.products": {
+      "name": "products",
       "schema": "",
       "columns": {
         "id": {
@@ -203,10 +249,10 @@
           "onDelete": "restrict",
           "onUpdate": "no action"
         },
-        "userCourseAccess_userId_courses_id_fk": {
-          "name": "userCourseAccess_userId_courses_id_fk",
+        "userCourseAccess_userId_products_id_fk": {
+          "name": "userCourseAccess_userId_products_id_fk",
           "tableFrom": "userCourseAccess",
-          "tableTo": "courses",
+          "tableTo": "products",
           "columnsFrom": [
             "userId"
           ],
@@ -277,10 +323,10 @@
           "onDelete": "restrict",
           "onUpdate": "no action"
         },
-        "courseProduct_productId_courses_id_fk": {
-          "name": "courseProduct_productId_courses_id_fk",
+        "courseProduct_productId_products_id_fk": {
+          "name": "courseProduct_productId_products_id_fk",
           "tableFrom": "courseProduct",
-          "tableTo": "courses",
+          "tableTo": "products",
           "columnsFrom": [
             "productId"
           ],

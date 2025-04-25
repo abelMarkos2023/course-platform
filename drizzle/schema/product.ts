@@ -7,7 +7,7 @@ export const productStatuses = ["public","private"] as const
 export type ProductStatus = (typeof productStatuses)[number]
 export const productStatusEnum = pgEnum("productStatuses",productStatuses)
 
-export const productTable = pgTable("courses", {
+export const productTable = pgTable("products", {
     id:id,
     name,
     description:text().notNull(),

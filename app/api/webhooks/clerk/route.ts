@@ -42,10 +42,9 @@ export async function POST(req: Request) {
   switch (event.type) {
     case "user.created":
     case "user.updated":{
-        // const email = event.data.email_addresses.find((email: any) => email.email_address === event.data.primary_email_address_id)?.email_address;
-
+        //eslint-disable-next-line @typescript-eslint/no-explicit-any
         const emailObj = event.data.email_addresses.find(
-            (email: any) => email.id === event.data.primary_email_address_id
+            email => email.id === event.data.primary_email_address_id
         );
         const email = emailObj?.email_address;
         const name = `${event.data.first_name} ${event.data.last_name}`.trim();

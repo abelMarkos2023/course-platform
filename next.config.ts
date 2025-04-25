@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // experimental:{
   //   dynamicIO: true,
   // }
+  experimental: {
+    useCache: true,
+  },
 };
 
 export default nextConfig;

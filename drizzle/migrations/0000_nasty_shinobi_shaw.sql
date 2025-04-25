@@ -6,6 +6,14 @@ CREATE TABLE "courses" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "products" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
+	"description" text NOT NULL,
 	"imageUrl" text NOT NULL,
 	"priceInDollars" integer NOT NULL,
 	"statue" "productStatuses" DEFAULT 'private' NOT NULL,
@@ -74,9 +82,9 @@ CREATE TABLE "userLessonComplete" (
 );
 --> statement-breakpoint
 ALTER TABLE "userCourseAccess" ADD CONSTRAINT "userCourseAccess_courseId_courses_id_fk" FOREIGN KEY ("courseId") REFERENCES "public"."courses"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "userCourseAccess" ADD CONSTRAINT "userCourseAccess_userId_courses_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."courses"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "userCourseAccess" ADD CONSTRAINT "userCourseAccess_userId_products_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "courseProduct" ADD CONSTRAINT "courseProduct_courseId_courses_id_fk" FOREIGN KEY ("courseId") REFERENCES "public"."courses"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "courseProduct" ADD CONSTRAINT "courseProduct_productId_courses_id_fk" FOREIGN KEY ("productId") REFERENCES "public"."courses"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "courseProduct" ADD CONSTRAINT "courseProduct_productId_products_id_fk" FOREIGN KEY ("productId") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "courseSection" ADD CONSTRAINT "courseSection_courseId_courses_id_fk" FOREIGN KEY ("courseId") REFERENCES "public"."courses"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "lesson" ADD CONSTRAINT "lesson_courseId_courses_id_fk" FOREIGN KEY ("courseId") REFERENCES "public"."courses"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "lesson" ADD CONSTRAINT "lesson_sectionId_courseSection_id_fk" FOREIGN KEY ("sectionId") REFERENCES "public"."courseSection"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
