@@ -1,4 +1,4 @@
-import { pgEnum, pgTable, uuid } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, name, updatedAt } from "../schemaHelper";
 import { courseTable } from "./cources";
 import { relations } from "drizzle-orm";
@@ -13,6 +13,7 @@ export const courseSectionEnum = pgEnum("courseSectionStatus",courseSectionStatu
 export const courseSectionTable = pgTable("courseSection", {
     id,
     courseId:uuid().notNull().references(() => courseTable.id,{onDelete:"restrict"}),
+    order: integer().notNull(),
     name,
     status:courseSectionEnum().notNull().default("private"),
     createdAt,

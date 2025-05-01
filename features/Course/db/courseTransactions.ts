@@ -19,3 +19,14 @@ export async function destroyCourse(id:string) {
 
     return course
 }
+
+export async function updateCourse(id:string, data: typeof courseTable.$inferInsert){
+
+    const [updatedCourse] = await db.update(courseTable).set(data).where(eq(courseTable.id,id)).returning()
+
+    if(!updatedCourse) throw new Error("Course didn't update")
+ 
+        revalidateCourseCache(updatedCourse.id)
+
+    return updatedCourse
+}

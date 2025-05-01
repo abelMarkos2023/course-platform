@@ -10,20 +10,26 @@ import RequiredLabelIcon from "../RequiredLabelIcon";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { createCourseAction } from "@/features/Course/action/course.action";
+import { createCourseAction, updateCourseAction } from "@/features/Course/action/course.action";
 import { toast } from "sonner";
 
-const CourseForm = () => {
+const CourseForm = ({course}:{course?:{
+  id:string,
+  name:string,
+  description: string
+}}) => {
   const form = useForm<z.infer<typeof createCourseSchema>>({
     resolver: zodResolver(createCourseSchema),
-    defaultValues: {
+    defaultValues: course ?? {
       name: "",
       description: "",
     },
   });
 
   const onSubmit = async (values : z.infer<typeof createCourseSchema>) => {
-     const data = await createCourseAction(values)
+
+    const action = course != null ? updateCourseAction.bind(null,course.id) : createCourseAction
+     const data = await action(values)
      toast.error(data.message)
   };
   return (

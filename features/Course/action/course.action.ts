@@ -2,9 +2,9 @@
 
 import { z } from "zod";
 import { createCourseSchema } from "../Schemal/courseSchema";
-import { destroyCourse, insertCourse } from "../db/courseTransactions";
+import { destroyCourse, insertCourse, updateCourse } from "../db/courseTransactions";
 import { redirect } from "next/navigation";
-import { canCreateCourse, canDeleteCourse } from "../coursesPermission";
+import { canCreateCourse, canDeleteCourse, canUpdateCourse } from "../coursesPermission";
 import { getCurrentUser } from "@/services/clerk";
 
 export async function createCourseAction(unsafeData: z.infer<typeof createCourseSchema>) {
@@ -40,3 +40,20 @@ export async function deleteCourseAction(id:string) {
 
 }
 
+export async function updateCourseAction(id:string,unsafeData: z.infer< typeof createCourseSchema>){
+
+    const {success,data} = createCourseSchema.safeParse(unsafeData);
+
+    const user = await getCurrentUser({allData:true})
+    const canUpdate = canUpdateCourse(user)
+    console.log(success,data,canUpdate)
+
+    if(!success || !canUpdate ) return {error:true, message:"Course not updated"}
+
+    console.log('first')
+
+     const course =   await updateCourse(id,data);
+
+     console.log('updated course', course)
+    return redirect(`/admin/courses/`)
+}
