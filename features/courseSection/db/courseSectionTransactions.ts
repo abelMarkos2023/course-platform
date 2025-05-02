@@ -41,3 +41,20 @@ export async function updateCourseSection(id:string, data: Partial< typeof cours
 
     return updatedCourseSection
 }
+
+export async function updateCourseSectionOrder(sectionsIds:string[]){
+
+   const sections = await Promise.all(
+    sectionsIds.map((id,index) => db.update(courseSectionTable).set({order:index}).where(eq(courseSectionTable.id,id)).returning({
+        id:courseSectionTable.id,
+        courseId:courseSectionTable.courseId
+    }) )
+   )
+
+   sections.flat().forEach(({id,courseId}) =>{
+    revalidateCourseSectionsCache({id,courseId})
+
+   });
+ 
+
+}

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import {  canCreateCourseSection, canDeleteCourseSection, canUpdateCourseSection } from "../courseSectionPermission";
 import { getCurrentUser } from "@/services/clerk";
 import { createCourseSectionSchema } from "../courseSectionSchema";
-import { destroyCourseSection, getnextCourseSectionOrder, insertCourseSection, updateCourseSection } from "../db/courseSectionTransactions";
+import { destroyCourseSection, getnextCourseSectionOrder, insertCourseSection, updateCourseSection, updateCourseSectionOrder } from "../db/courseSectionTransactions";
 
 export async function createCourseSectionAction(courseId:string,unsafeData: z.infer<typeof createCourseSectionSchema>) {
 
@@ -20,7 +20,7 @@ export async function createCourseSectionAction(courseId:string,unsafeData: z.in
 
     console.log('first')
     const order = await getnextCourseSectionOrder(courseId)
-     const course =   await insertCourseSection({...data,courseId,order})
+      await insertCourseSection({...data,courseId,order})
     return redirect(`/admin/courses/${courseId}/edit`)
 
 }
@@ -57,4 +57,20 @@ export async function updateCourseSectionAction(id:string,unsafeData: z.infer< t
 
      console.log('updated course', course)
     return redirect(`/admin/courses/${course.courseId}/edit`)
+}
+
+export async function updateCourseSectionOrderAction(sectionIds:string[]){
+
+
+    const user = await getCurrentUser({allData:true})
+    const canUpdate = canUpdateCourseSection(user)
+    console.log(canUpdate)
+
+    if(sectionIds.length === 0 || !canUpdate ) return {error:true, message:"Course not updated"}
+
+    console.log('first')
+
+      await updateCourseSectionOrder(sectionIds);
+
+    return {error:false, message:"Course updated"}
 }

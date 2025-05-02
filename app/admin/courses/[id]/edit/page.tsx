@@ -1,6 +1,6 @@
-import ActionButton from '@/components/ActionButton';
 import CourseForm from '@/components/Courses/CourseForm';
 import CourseSectionDialog from '@/components/CourseSection/CourseSectionDialog';
+import SortableSectionList from '@/components/CourseSection/SortableSectionList';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,14 +10,11 @@ import { db } from '@/drizzle/db';
 import { courseTable } from '@/drizzle/schema/cources';
 import { courseSectionTable } from '@/drizzle/schema/courseSection';
 import { lessonTable } from '@/drizzle/schema/lesson';
-import { deleteCourseAction } from '@/features/Course/action/course.action';
 import { getCourseIdTag } from '@/features/Course/coursesCache';
-import { deleteCourseSectionAction } from '@/features/courseSection/action/course.action';
 import { getCourseSectionsIdTag } from '@/features/courseSection/db/cache';
 import { getLessonsIdTag } from '@/features/lessons/db/cache';
-import { cn } from '@/lib/utils';
 import { asc, eq } from 'drizzle-orm';
-import { EyeClosed, PlusIcon, Trash2Icon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { notFound } from 'next/navigation';
 import React from 'react'
@@ -51,34 +48,7 @@ const EditCoursePage = async ({params}:{params:Promise<{id:string}>}) => {
                         </CourseSectionDialog>
                     </CardHeader>
                     <CardContent className='flex flex-col gap-2'>
-                        {
-                            course.courseSections.map(section => (
-                                <div key={section.id} className='flex items-center gap-1'>
-                                    <div className={cn('font-semibold', section.status === 'private' && 'text-muted-foreground')}>
-                                        <p className='flex items-center gap-1'> 
-                                            {
-                                            section.status === 'private' && <EyeClosed />
-                                        }.
-                                        {  
-                                          section.name
-                                        }</p>
-                                       
-                                    </div>
-
-                                    <div className="flex ml-auto items-center gap-2">
-                                        <CourseSectionDialog courseId={course.id} section={section}>
-                                            <DialogTrigger asChild>
-                                                <Button variant='outline'>Edit</Button>
-                                            </DialogTrigger>
-                                        </CourseSectionDialog>
-                                        <ActionButton requireAreYouSure size={'sm'} action={ deleteCourseSectionAction.bind(null,section.id)}>
-                                            <Trash2Icon />
-                                            Delete
-                                        </ActionButton>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        <SortableSectionList sections={course.courseSections} courseId={course.id} />
                     </CardContent>
                 </Card>
             </TabsContent>
