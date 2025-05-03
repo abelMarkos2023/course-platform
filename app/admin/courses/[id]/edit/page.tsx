@@ -1,6 +1,8 @@
 import CourseForm from '@/components/Courses/CourseForm';
 import CourseSectionDialog from '@/components/CourseSection/CourseSectionDialog';
 import SortableSectionList from '@/components/CourseSection/SortableSectionList';
+import LessonDialog from '@/components/Lessons/LessonDialog';
+import SortableLessonList from '@/components/Lessons/SortableLessonList';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,8 +15,9 @@ import { lessonTable } from '@/drizzle/schema/lesson';
 import { getCourseIdTag } from '@/features/Course/coursesCache';
 import { getCourseSectionsIdTag } from '@/features/courseSection/db/cache';
 import { getLessonsIdTag } from '@/features/lessons/db/cache';
+import { cn } from '@/lib/utils';
 import { asc, eq } from 'drizzle-orm';
-import { PlusIcon } from 'lucide-react';
+import { EyeClosedIcon, PlusIcon } from 'lucide-react';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import { notFound } from 'next/navigation';
 import React from 'react'
@@ -30,7 +33,7 @@ const EditCoursePage = async ({params}:{params:Promise<{id:string}>}) => {
     <div className='container py-8'>
         <PageHeader title={course.name}/>
 
-        <Tabs defaultValue='lessons' className='w-[400px]'>
+        <Tabs defaultValue='lessons' className='max-w-4xl mx-auto'>
             <TabsList>
                 <TabsTrigger value='lessons'>Lessons</TabsTrigger>
                 <TabsTrigger value='details'>Details</TabsTrigger>
@@ -51,6 +54,28 @@ const EditCoursePage = async ({params}:{params:Promise<{id:string}>}) => {
                         <SortableSectionList sections={course.courseSections} courseId={course.id} />
                     </CardContent>
                 </Card>
+                <hr className="my-2" />
+                {
+                    course.courseSections.map((section) => (
+                        <Card key={section.id}>
+                    <CardHeader className='flex items-center justify-between'>
+                        <CardTitle className={cn('flex items-center gap-2', section.status === 'private' && 'text-muted-foreground')}>
+                           {section.status === 'private' && <EyeClosedIcon />} {section.name}
+                            </CardTitle>
+                        <LessonDialog defaultSectionId = {section.id} sections={course.courseSections}>
+                            <DialogTrigger asChild>
+                                <Button>
+                                    <PlusIcon /> Nes Lesson
+                                </Button>
+                            </DialogTrigger>
+                        </LessonDialog>
+                    </CardHeader>
+                    <CardContent className='flex flex-col gap-2'>
+                        <SortableLessonList lessons={section.lessons} sections={course.courseSections} />
+                    </CardContent>
+                </Card>
+                    ))
+                }
             </TabsContent>
             <TabsContent value='details'>
                 <Card>

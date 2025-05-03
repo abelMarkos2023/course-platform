@@ -1,5 +1,4 @@
 import { integer, pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { courseTable } from "./cources";
 import { createdAt, id, name, updatedAt } from "../schemaHelper";
 import { courseSectionTable } from "./courseSection";
 import { relations } from "drizzle-orm";
@@ -10,9 +9,9 @@ export const lessonStatusEnum = pgEnum("lessonStatuses",lessonStatuses)
 
 export const lessonTable = pgTable("lesson", {
     id,
-    courseId:uuid().notNull().references(() => courseTable.id,{onDelete:"restrict"}),
+    
     name,
-    description:text().notNull(),
+    description:text(),
     youtubeVideoId:text(),
     order:integer().notNull(),
     status:lessonStatusEnum().notNull().default("private"),

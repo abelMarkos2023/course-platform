@@ -15,6 +15,20 @@
       "when": 1746001985431,
       "tag": "0001_optimal_cammi",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746300324617,
+      "tag": "0002_awesome_millenium_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746300430218,
+      "tag": "0003_nosy_misty_knight",
+      "breakpoints": true
     }
   ]
 }
