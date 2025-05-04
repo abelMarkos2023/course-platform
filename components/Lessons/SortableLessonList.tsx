@@ -15,7 +15,7 @@ import { deleteLessonAction, updateLessonOrderAction } from '@/features/lessons/
 
 const SortableLessonList = ({lessons,sections}:{
     lessons: {
-        id: string,name:string,status:lessonStatusType,description:string|null,youtubeVideoId:string,sectionId:string
+        id: string,name:string,status:lessonStatusType,description:string|null,youtubeVideoId:string|null,sectionId:string
     }[],
     sections: {id: string,name:string,status:courseSectionType}[]
 }) => {

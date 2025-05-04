@@ -6,7 +6,7 @@ export const createLessonSchema = z.object({
     status: z.enum(lessonStatusEnum.enumValues),
     youtubeVideoId: z.string().min(1),
     description: z.string().transform((v) => v || null).nullable(),
-    order: z.number(),
+  
     sectionId: z.string().min(1),
     
 })

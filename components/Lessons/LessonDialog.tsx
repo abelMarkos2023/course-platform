@@ -11,7 +11,7 @@ const LessonDialog = (
     defaultSectionId?: string,
     sections: {id: string,name:string,status:courseSectionType}[],
     lesson?:{id:string,name:string,status:lessonStatusType,description:string|null,
-    youtubeVideoId:string,sectionId:string},
+    youtubeVideoId:string|null,sectionId:string},
     children: React.ReactNode
   }) => {
 

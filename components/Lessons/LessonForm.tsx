@@ -19,7 +19,7 @@ import { createLessonAction, updateLessonAction } from "@/features/lessons/actio
 const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
   defaultSectionId: string,
   sections:{id:string,name:string,status: courseSectionType}[], 
-  lesson: {id:string,name:string,status:lessonStatusType,description:string|null,youtubeVideoId?:string,sectionId:string}|undefined,
+  lesson: {id:string,name:string,status:lessonStatusType,description:string|null,youtubeVideoId:string|null,sectionId:string}|undefined,
   onSuccess?: () => void
 }) => {
   const form = useForm<z.infer<typeof createLessonSchema>>({
@@ -34,8 +34,7 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
   });
 
   const onSubmit = async (values : z.infer<typeof createLessonSchema>) => {
-
-    console.log('submitting')
+    
     const action = lesson != null ? updateLessonAction.bind(null,lesson.id) : createLessonAction
      const data = await action(values)
      console.log(data)
@@ -47,12 +46,12 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
      toast.error(data.message)
   };
 
-  const youtubeVideoId = form.watch("youtubeVideoId");
-  console.log(youtubeVideoId)
+  // const youtubeVideoId = form.watch("youtubeVideoId");
+  // console.log(youtubeVideoId)
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit,(errors) => console.log("Validation errors:", errors))}
         className="flex flex-col gap-4"
       >
         <div className="grid grid-cols-1 gap-5">
@@ -66,8 +65,8 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
                 <RequiredLabelIcon />
                 Name
               </FormLabel>
-              <FormControl {...field} className="bg-gray-100">
-                <Input />
+              <FormControl className="bg-gray-100">
+                <Input  {...field}/>
               </FormControl>
               <FormMessage />
 
@@ -84,8 +83,8 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
                 <RequiredLabelIcon />
                 Youtube Video ID
               </FormLabel>
-              <FormControl {...field} className="bg-gray-100">
-                <Input />
+              <FormControl  className="bg-gray-100">
+                <Input {...field}/>
               </FormControl>
               <FormMessage />
 
@@ -166,11 +165,11 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
           render={({ field }) => (
             <FormItem >
               <FormLabel>
-                <RequiredLabelIcon />
+  
                 Description
               </FormLabel>
-              <FormControl {...field} className="bg-gray-100">
-                <Textarea className="min-h-20 resize-none" value={field.value ?? ''}/>
+              <FormControl className="bg-gray-100">
+                <Textarea  {...field}  className="min-h-20 resize-none" value={field.value ?? ''}/>
               </FormControl>
               <FormMessage />
 
@@ -178,7 +177,7 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
           )}
         />
         <div className="self-end">
-            <Button type="submit" disabled= {form.formState.isSubmitting}>Save</Button>
+            <Button type="submit" className="bg-blue-600 font-semibold cursor-pointer"  disabled= {form.formState.isSubmitting}>Save Lesson</Button>
         </div>
       </form>
     </Form>
