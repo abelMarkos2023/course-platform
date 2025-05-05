@@ -15,6 +15,7 @@ import { lessonStatuses, lessonStatusType } from "@/drizzle/schema/lesson";
 import { createLessonSchema } from "@/features/lessons/lessonSchema";
 import { Textarea } from "../ui/textarea";
 import { createLessonAction, updateLessonAction } from "@/features/lessons/action/lesson.action";
+import YoutubeVideoPlayer from "../YoutubeVideoPlayer";
 
 const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
   defaultSectionId: string,
@@ -46,10 +47,11 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
      toast.error(data.message)
   };
 
-  // const youtubeVideoId = form.watch("youtubeVideoId");
+  const youtubeVideoId = form.watch("youtubeVideoId");
   // console.log(youtubeVideoId)
   return (
-    <Form {...form}>
+    <div className="w-full">
+      <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit,(errors) => console.log("Validation errors:", errors))}
         className="flex flex-col gap-4"
@@ -179,8 +181,13 @@ const LessonForm = ({defaultSectionId,lesson,sections,onSuccess}:{
         <div className="self-end">
             <Button type="submit" className="bg-blue-600 font-semibold cursor-pointer"  disabled= {form.formState.isSubmitting}>Save Lesson</Button>
         </div>
+
+        {youtubeVideoId && <div className="aspect-video">
+          <YoutubeVideoPlayer videoId={youtubeVideoId} />
+        </div> }
       </form>
     </Form>
+    </div>
   );
 };
 

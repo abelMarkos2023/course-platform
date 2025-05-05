@@ -13,7 +13,7 @@ export const productTable = pgTable("products", {
     description:text().notNull(),
     imageUrl:text().notNull(),
     priceInDollars:integer().notNull(),
-    statue:productStatusEnum().notNull().default("private"),
+    status:productStatusEnum().notNull().default("private"),
     createdAt,
     updatedAt 
 })   

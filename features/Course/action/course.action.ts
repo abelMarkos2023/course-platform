@@ -20,7 +20,7 @@ export async function createCourseAction(unsafeData: z.infer<typeof createCourse
     console.log('first')
 
      const course =   await insertCourse(data)
-    return redirect(`/courses/${course.id}/edit`)
+    return redirect(`/admin/courses/${course.id}/edit`)
 
 }
 
@@ -55,5 +55,5 @@ export async function updateCourseAction(id:string,unsafeData: z.infer< typeof c
      const course =   await updateCourse(id,data);
 
      console.log('updated course', course)
-    return redirect(`/admin/courses/`)
+    return redirect(`/admin/courses/${course.id}/edit`)
 }
