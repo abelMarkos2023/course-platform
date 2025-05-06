@@ -48,8 +48,8 @@ const CourseForm = ({course}:{course?:{
                 <RequiredLabelIcon />
                 Name
               </FormLabel>
-              <FormControl {...field} className="bg-gray-100">
-                <Input />
+              <FormControl className="bg-gray-100">
+                <Input  {...field}/>
               </FormControl>
               <FormMessage />
 
@@ -66,8 +66,8 @@ const CourseForm = ({course}:{course?:{
                 <RequiredLabelIcon />
                 Description
               </FormLabel>
-              <FormControl {...field} className="bg-gray-100">
-                <Textarea className="min-h-20 resize-none" />
+              <FormControl  className="bg-gray-100">
+                <Textarea {...field} className="min-h-20 resize-none" />
               </FormControl>
               <FormMessage />
 

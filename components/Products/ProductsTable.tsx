@@ -59,12 +59,12 @@ return (
                     <TableCell>
                         <div className="flex flex-row gap-1">
                             <Button className='flex items-center gap-1' asChild>
-                                <Link href={`/admin/courses/${course.id}/edit`}>
+                                <Link href={`/admin/products/${product.id}/edit`}>
                                     <EditIcon className='w-4 h-4' />
                                     Edit                                       
                                 </Link>
                             </Button>
-                            <ActionButton className='cursor-pointer' variant={'destructive'} action={deleteCourseAction.bind(null,course.id)} requireAreYouSure>
+                            <ActionButton className='cursor-pointer' variant={'destructive'} action={deleteCourseAction.bind(null,product.id)} requireAreYouSure>
                                 <Trash2Icon className='w-4 h-4' />
                                 <span className='sr-only'>Delete</span>
                             </ActionButton>
@@ -86,6 +86,6 @@ function getIconStatus(status:ProductStatus){
 
     return <Icon  className='size-4'/>
     }
-}
+
 
 export default ProductsTable
