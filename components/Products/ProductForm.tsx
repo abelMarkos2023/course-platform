@@ -39,10 +39,11 @@ const ProductForm = ({
     name: string;
     description: string;
     priceInDollars: number;
-    coursesCount: number;
-    customersCount: number;
+    coursesCount?: number;
+    customersCount?: number;
     status: ProductStatus;
     imageUrl: string;
+    courseIds: string[];
   };
 }) => {
   const form = useForm<z.infer<typeof createProductSchema>>({

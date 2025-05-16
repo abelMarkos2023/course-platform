@@ -6,7 +6,7 @@ import { userLessonCompleteTable } from "./userLessonCompleted";
 
 export const role = ["user","admin"] as const
 export type roleType = (typeof role)[number]
-export const roleEnum = pgEnum("role",role)
+export const roleEnum = pgEnum("roles",role)
 
 export const userTable = pgTable("users", {
     id,

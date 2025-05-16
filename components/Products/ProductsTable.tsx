@@ -9,6 +9,7 @@ import { deleteCourseAction } from '@/features/Course/action/course.action'
 import { ProductStatus } from '@/drizzle/schema/product'
 import Image from 'next/image'
 import { Badge } from '../ui/badge'
+import { deleteProductAction } from '@/features/Products/products.action'
 
 const ProductsTable = ({products}:{
     products:{ id: string; name: string;
@@ -17,6 +18,8 @@ const ProductsTable = ({products}:{
              priceInDollars:number,coursesCount:number 
             }[]
         }) => {
+
+            console.log(products)
 return (
 <Table>
     <TableHeader>
@@ -35,7 +38,8 @@ return (
                        <div className="flex items-center gap-4">
                         <Image 
                         className='object-cover rounded-md size-12'
-                          src={product.imageUrl}
+                        //   src={product.imageUrl}
+                        src={product.imageUrl}
                           width={192}
                           height={192}
                           alt={product.name}
@@ -64,7 +68,7 @@ return (
                                     Edit                                       
                                 </Link>
                             </Button>
-                            <ActionButton className='cursor-pointer' variant={'destructive'} action={deleteCourseAction.bind(null,product.id)} requireAreYouSure>
+                            <ActionButton className='cursor-pointer' variant={'destructive'} action={deleteProductAction.bind(null,product.id)} requireAreYouSure>
                                 <Trash2Icon className='w-4 h-4' />
                                 <span className='sr-only'>Delete</span>
                             </ActionButton>

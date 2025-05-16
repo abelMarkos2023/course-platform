@@ -8,7 +8,7 @@ import { lessonTable } from "./lesson";
 export const courseSectionStatus = ["public","private"] as const
 
 export type courseSectionType = (typeof courseSectionStatus)[number]
-export const courseSectionEnum = pgEnum("courseSectionStatus",courseSectionStatus)
+export const courseSectionEnum = pgEnum("course_SectionStatus",courseSectionStatus)
 
 export const courseSectionTable = pgTable("courseSection", {
     id,

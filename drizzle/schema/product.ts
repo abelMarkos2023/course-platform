@@ -5,7 +5,7 @@ import { courseProductTable } from "./courseProduct";
 
 export const productStatuses = ["public","private"] as const
 export type ProductStatus = (typeof productStatuses)[number]
-export const productStatusEnum = pgEnum("productStatuses",productStatuses)
+export const productStatusEnum = pgEnum("product_Statuses",productStatuses)
 
 export const productTable = pgTable("products", {
     id:id,
@@ -20,5 +20,5 @@ export const productTable = pgTable("products", {
 
 export const productRelationShips = relations(productTable, ({ many }) => ({
   courseProduct:many(courseProductTable),
-  // purchase: many(purchaseTable)
+  //  purchase: many(purchaseTable)
 }))

@@ -5,7 +5,7 @@ import { relations } from "drizzle-orm";
 
 export const lessonStatuses = ["public","private","preview"] as const
 export type lessonStatusType = (typeof lessonStatuses)[number]
-export const lessonStatusEnum = pgEnum("lessonStatuses",lessonStatuses)
+export const lessonStatusEnum = pgEnum("lesson_Statuses",lessonStatuses)
 
 export const lessonTable = pgTable("lesson", {
     id,

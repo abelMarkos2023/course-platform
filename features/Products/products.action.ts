@@ -36,16 +36,16 @@ export async function updateProductAction(id:string,unsafeData: z.infer< typeof 
     const canUpdate = canUpdateProduct(user)
     console.log(success,data,canUpdate)
 
-    if(!success || !canUpdate ) return {error:true, message:"Course not updated"}
+    if(!success || !canUpdate ) return {error:true, message:"Product not updated"}
 
     console.log('first')
 
-     const course =   await updateProduct(id,{...data});
+     const product =   await updateProduct(id,{...data});
 
-     console.log('updated course', course)
-     if (course == null) return {error:true, message:"Lesson not updated"}
+     console.log('updated Product', product)
+     if (product == null) return {error:true, message:"Lesson not updated"}
 
-     return {error:false, message:"Lesson updated"}
+     return {error:false, message:"Product updated"}
 }
 
 export async function deleteProductAction(id:string) {

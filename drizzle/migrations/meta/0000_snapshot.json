@@ -1,5 +1,5 @@
 {
-  "id": "68020248-6f7b-46b3-95d8-a20bbde28fae",
+  "id": "68ddbbed-cc27-43c0-acef-6a392d65221a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -85,9 +85,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "statue": {
-          "name": "statue",
-          "type": "productStatuses",
+        "status": {
+          "name": "status",
+          "type": "product_Statuses",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -112,6 +112,111 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.purchase": {
+      "name": "purchase",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "pricePaidInCents": {
+          "name": "pricePaidInCents",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "productDetails": {
+          "name": "productDetails",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "productId": {
+          "name": "productId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stripeSessionId": {
+          "name": "stripeSessionId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refundedAt": {
+          "name": "refundedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "purchase_userId_users_id_fk": {
+          "name": "purchase_userId_users_id_fk",
+          "tableFrom": "purchase",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "purchase_productId_products_id_fk": {
+          "name": "purchase_productId_products_id_fk",
+          "tableFrom": "purchase",
+          "tableTo": "products",
+          "columnsFrom": [
+            "productId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "purchase_stripeSessionId_unique": {
+          "name": "purchase_stripeSessionId_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "stripeSessionId"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -147,7 +252,7 @@
         },
         "role": {
           "name": "role",
-          "type": "role",
+          "type": "roles",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -368,6 +473,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -376,7 +487,7 @@
         },
         "status": {
           "name": "status",
-          "type": "courseSectionStatus",
+          "type": "course_SectionStatus",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -430,12 +541,6 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "courseId": {
-          "name": "courseId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
         "name": {
           "name": "name",
           "type": "text",
@@ -446,7 +551,7 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "youtubeVideoId": {
           "name": "youtubeVideoId",
@@ -462,7 +567,7 @@
         },
         "status": {
           "name": "status",
-          "type": "lessonStatuses",
+          "type": "lesson_Statuses",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -491,19 +596,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "lesson_courseId_courses_id_fk": {
-          "name": "lesson_courseId_courses_id_fk",
-          "tableFrom": "lesson",
-          "tableTo": "courses",
-          "columnsFrom": [
-            "courseId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        },
         "lesson_sectionId_courseSection_id_fk": {
           "name": "lesson_sectionId_courseSection_id_fk",
           "tableFrom": "lesson",
@@ -600,32 +692,32 @@
     }
   },
   "enums": {
-    "public.productStatuses": {
-      "name": "productStatuses",
+    "public.product_Statuses": {
+      "name": "product_Statuses",
       "schema": "public",
       "values": [
         "public",
         "private"
       ]
     },
-    "public.role": {
-      "name": "role",
+    "public.roles": {
+      "name": "roles",
       "schema": "public",
       "values": [
         "user",
         "admin"
       ]
     },
-    "public.courseSectionStatus": {
-      "name": "courseSectionStatus",
+    "public.course_SectionStatus": {
+      "name": "course_SectionStatus",
       "schema": "public",
       "values": [
         "public",
         "private"
       ]
     },
-    "public.lessonStatuses": {
-      "name": "lessonStatuses",
+    "public.lesson_Statuses": {
+      "name": "lesson_Statuses",
       "schema": "public",
       "values": [
         "public",

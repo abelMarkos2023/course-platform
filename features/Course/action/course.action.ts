@@ -17,11 +17,11 @@ export async function createCourseAction(unsafeData: z.infer<typeof createCourse
 
     if(!success || !canCreate ) return {error:true, message:"Course not created"}
 
-    console.log('first')
 
      const course =   await insertCourse(data)
     return redirect(`/admin/courses/${course.id}/edit`)
-
+//https://z5xcq4b0-3000.euw.devtunnels.ms/
+//https://z5xcq4b0-3000.euw.devtunnels.ms
 }
 
 export async function deleteCourseAction(id:string) {

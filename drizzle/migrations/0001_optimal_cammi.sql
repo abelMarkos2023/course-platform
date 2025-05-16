@@ -1,1 +1,0 @@
-ALTER TABLE "courseSection" ADD COLUMN "order" integer NOT NULL;
